@@ -50,5 +50,7 @@ while True:
 
     elif response.status_code == 404:
         print("Pokemon not found, Please check the Pokemon name.")
+        break
     else:
         print("Something went wrong.", response.status_code)
+        break
