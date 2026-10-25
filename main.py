@@ -1,40 +1,40 @@
-import requests
 import random
+import requests
 
 pokemon_list = ["pikachu", "snorlax", "bulbasaur", "mew", "sylveon"]
 
 pokemon_name = random.choice(pokemon_list)
 
-url = "https://pokeapi.co/api/v2/{pokemon_name}"
+url = "https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
 response = requests.get(url)
-
-attempt = 3
 
 if response.status_code == 200:
     data = response.json()
 
-    name = data["name"]
+    name = data["name"].capitalize()
     height = data["height"]
     weight = data["weight"]
+    skill = data["abilities"][0]["ability"]["name"]
 
-    print("POKEMON GUESS GAME!")
+    print("WHO'S THAT POKEMON?")
     print("Guess the name of the Pokemon")
-    print("You have 3 attempts")
+    print("You have 3 attempts\n")
     print("Height: {height}")
     print("Weight: {weight}")
-    input("You Answer:")
+     print(f"Skill: {skill}\n")
 
-    for i in range(1, 4):
-        guess = input (f"Attempt {attempt}/3 - Guess the Pokemon:")
+    while True:
+        for attempt in range(1, 4):
+            guess = input(f"Attempt {attempt}/3 - Guess the Pokemon: ").strip().lower()
 
-        if guess == name:
-            print("Your Guess is Correct!")
-            break
-        else:
-            print("Wrong guess! Nice try.")
+            if guess == name.lower():
+                print("Your Guess is Correct!")
+                break
+            else:
+                print("Wrong guess! Nice try.")
 
-    else: 
-        print("Game Over! Thanks for playing!")
+        else: 
+            print("Game Over! Thanks for playing!")
 
 elif response.status_code == 404:
     print("Pokemon not found, Please check the Pokemon name.")
